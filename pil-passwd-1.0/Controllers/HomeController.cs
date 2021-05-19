@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using pil_passwd_1._0.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
@@ -22,18 +23,11 @@ namespace pil_passwd_1._0.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
         [Authorize]
         public IActionResult Secured()
         {
+            TempData["respuesta"] = DbConection();
             return View();
         }
         [HttpGet("login")]
@@ -69,7 +63,48 @@ namespace pil_passwd_1._0.Controllers
             return Redirect("Secured");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        // Conexión con la base de datos
+        public string DbConection()
+        {
+            string respuesta = "";
+            try
+            {
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                builder.DataSource = "localhost,1433";
+                builder.UserID = "sa";
+                builder.Password = "12#adios";
+                builder.InitialCatalog = "passwords";
+
+                
+                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                {
+                    Console.WriteLine("\nQuery data example:");
+                    Console.WriteLine("=========================================\n");
+
+                    String sql = "SELECT * FROM dbo.clientes FOR JSON AUTO";
+
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                respuesta = reader.GetString(0);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return respuesta;
+
+        }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

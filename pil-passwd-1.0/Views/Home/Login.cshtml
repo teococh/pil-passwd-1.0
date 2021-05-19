@@ -5,13 +5,35 @@
     var returnUrl = ViewData["ReturnUrl"] as string;
     var error = TempData["Error"] as string;
 }
-<h1>Login</h1>
-@if (!string.IsNullOrEmpty(error))
-            {
-                <h2 class="alert-danger">@error</h2>
-            }
-<form action="/login?ReturnUrl=@System.Net.WebUtility.UrlEncode(returnUrl)" method="post">
-    <input type="text" name="username"></input>
-    <input type="password" name="password"></input>
-    <input type="submit" value="Login"></input>
-</form>
+
+<style>
+    #login-box {
+        border: solid 1px black;
+        justify-content: center;
+        width: max-content;
+        text-align: center;
+        position: absolute;
+        top: 20%;
+        left: 30%;
+    }
+    #login-box input {
+        margin: .5em 0;
+    }
+    .btn {
+        width: 1em;
+    }
+
+</style>
+
+<div id="login-box" class="row">
+    <h1 class="col-12">Login</h1>
+    <form action="/login?ReturnUrl=@System.Net.WebUtility.UrlEncode(returnUrl)" method="post" class="row">
+        <input type="text" name="username" class="col-12"></input>
+        <input type="password" name="password" class="col-12"></input>
+        <input type="submit" value="Login" class="col-12 btn btn-light"></input>
+    </form>
+    @if (!string.IsNullOrEmpty(error))
+    {
+        <h3 class="alert-danger" style="padding: .5em; text-align: center;">@error</h3>
+    }
+</div>
