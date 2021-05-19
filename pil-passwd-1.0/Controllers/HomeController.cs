@@ -90,6 +90,7 @@ namespace pil_passwd_1._0.Controllers
                         {
                             while (reader.Read())
                             {
+                                Console.WriteLine(reader.GetString(0));
                                 respuesta = reader.GetString(0);
                             }
                         }
@@ -104,7 +105,10 @@ namespace pil_passwd_1._0.Controllers
 
         }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        
+
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

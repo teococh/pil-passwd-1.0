@@ -4,18 +4,31 @@
 @{
 
 
-    var respuesta = TempData["respuesta"] as string;
+    var respuesta = TempData["respuesta"];
+
+    Console.WriteLine(respuesta);
+
     
-
-
-
 }
+
 <script>
-    var a = JSON.parse("@respuesta");
 
-    console.log(a);
+    function ajaxJson(dotnetHelper) {
+        dotnetHelper.invokeMethodAsync("DbConection")
+            .then(resultado => {
+                console.log(resultado);
+            })
+    }
+    ajaxJson();
 
+    
 </script>
-
 <h1>Aqui van las contraseñas</h1>
-@respuesta
+<div>
+    <form>
+        id<input type="number" name="id" /> <br />
+        nombre<input type="text" name="nombre" /><br />
+        <button id="refrescar">refrescar</button>
+    </form>
+</div>
+<div id="data"></div>
