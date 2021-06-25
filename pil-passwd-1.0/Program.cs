@@ -13,6 +13,7 @@ namespace pil_passwd_1._0
     {
         public static void Main(string[] args)
         {
+
             CreateHostBuilder(args).Build().Run();
         }
 

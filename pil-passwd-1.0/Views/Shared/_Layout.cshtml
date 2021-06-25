@@ -6,13 +6,16 @@
     <title>@ViewData["Title"] - pil_passwd_1._0</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="module" src="~/js/site.js" asp-append-version="true"></script>
+
 </head>
 <body>
     
     @if (User.Identity.IsAuthenticated)
     {
         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">
-            <button class="btn-primary position-sticky top-0 end-0">
+            <button class="btn btn-primary sticky-top top-0 end-100">
                 Logout
             </button>
         </a>
